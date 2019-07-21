@@ -93,6 +93,9 @@ public extension Requestable {
         let resourceUrl = try endpoint.buildURL()
         var resourceRequest = URLRequest(url: resourceUrl)
         resourceRequest.httpMethod = endpoint.method.rawValue
+        if endpoint.method == .GET {
+            return resourceRequest
+        }
         let encoder = JSONEncoder()
         guard let body = try? encoder.encode(body) else {
             throw APIError.encodingFailed
@@ -104,7 +107,7 @@ public extension Requestable {
     static func getResource<ResponseType>(from endpoint: APIResource, get responseBody: ResponseType.Type) -> Future<ResponseType, APIError> where ResponseType: Decodable {
         return getResource(from: endpoint, with: EmptyBody(), get: responseBody)
     }
-    
+
     static func getResource<RequestType: Encodable, ResponseType>(from endpoint: APIResource, with requestBody: RequestType, get responseBody: ResponseType.Type) -> Future<ResponseType, APIError> where ResponseType: Decodable {
         return Future { (completion) in
             do {
