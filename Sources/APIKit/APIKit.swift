@@ -82,8 +82,8 @@ enum Test: APIResource {
 public protocol Requestable {
     
     static func buildURLRequest<T: Encodable>(endpoint: APIResource, body: T) throws -> URLRequest
-    static func getResource<RequestType: Encodable, ResponseType>(from: APIResource, with requestBody: RequestType, get responseBody: ResponseType.Type) -> Publishers.Future<ResponseType, APIError> where ResponseType: Decodable
-    
+//    static func getResource<RequestType: Encodable, ResponseType>(from: APIResource, with requestBody: RequestType, get responseBody: ResponseType.Type) -> Publishers.Future<ResponseType, APIError> where ResponseType: Decodable
+    static func getResource<RequestType: Encodable, ResponseType>(from: APIResource, with requestBody: RequestType, get responseBody: ResponseType.Type) -> Future<ResponseType, APIError> where ResponseType: Decodable
 }
 
 @available(iOS 13.0, *)
@@ -101,8 +101,8 @@ public extension Requestable {
         return resourceRequest
     }
     
-    static func getResource<RequestType: Encodable, ResponseType>(from endpoint: APIResource, with requestBody: RequestType, get responseBody: ResponseType.Type) -> Publishers.Future<ResponseType, APIError> where ResponseType: Decodable {
-        return Publishers.Future { (completion) in
+    static func getResource<RequestType: Encodable, ResponseType>(from endpoint: APIResource, with requestBody: RequestType, get responseBody: ResponseType.Type) -> Future<ResponseType, APIError> where ResponseType: Decodable {
+        return Future { (completion) in
             do {
                 let request = try self.buildURLRequest(endpoint: endpoint, body: requestBody)
                 let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
