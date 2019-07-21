@@ -83,7 +83,7 @@ public protocol Requestable {
     
     static func buildURLRequest<T: Encodable>(endpoint: APIResource, body: T) throws -> URLRequest
 //    static func getResource<RequestType: Encodable, ResponseType>(from: APIResource, with requestBody: RequestType, get responseBody: ResponseType.Type) -> Publishers.Future<ResponseType, APIError> where ResponseType: Decodable
-    static func getResource<RequestType: Encodable, ResponseType>(from: APIResource, with requestBody: RequestType, get responseBody: ResponseType.Type) -> Future<ResponseType, APIError> where ResponseType: Decodable
+    static func getResource<RequestType: Encodable, ResponseType>(from: APIResource, with requestBody: RequestType?, get responseBody: ResponseType.Type) -> Future<ResponseType, APIError> where ResponseType: Decodable
 }
 
 @available(iOS 13.0, *)
@@ -101,7 +101,7 @@ public extension Requestable {
         return resourceRequest
     }
     
-    static func getResource<RequestType: Encodable, ResponseType>(from endpoint: APIResource, with requestBody: RequestType, get responseBody: ResponseType.Type) -> Future<ResponseType, APIError> where ResponseType: Decodable {
+    static func getResource<RequestType: Encodable, ResponseType>(from endpoint: APIResource, with requestBody: RequestType? = nil, get responseBody: ResponseType.Type) -> Future<ResponseType, APIError> where ResponseType: Decodable {
         return Future { (completion) in
             do {
                 let request = try self.buildURLRequest(endpoint: endpoint, body: requestBody)
