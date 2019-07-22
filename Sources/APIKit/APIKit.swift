@@ -43,7 +43,7 @@ public extension APIResource {
         guard let resourceUrl = resourcerUrlComponents.url else {
             throw APIError.invalidUrl
         }
-        return resourceUrl
+        return resourceUrl.appendingPathComponent(endpoint)
     }
     
 }
