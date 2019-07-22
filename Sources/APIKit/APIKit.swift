@@ -91,6 +91,7 @@ public extension Requestable {
     
     static func buildURLRequest<T: Encodable>(endpoint: APIResource, body: T) throws -> URLRequest {
         let resourceUrl = try endpoint.buildURL()
+        print(resourceUrl)
         var resourceRequest = URLRequest(url: resourceUrl)
         resourceRequest.httpMethod = endpoint.method.rawValue
         if endpoint.method == .GET {
