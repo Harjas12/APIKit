@@ -82,7 +82,6 @@ enum Test: APIResource {
 public protocol Requestable {
     
     static func buildURLRequest<T: Encodable>(endpoint: APIResource, body: T) throws -> URLRequest
-//    static func getResource<RequestType: Encodable, ResponseType>(from: APIResource, with requestBody: RequestType, get responseBody: ResponseType.Type) -> Publishers.Future<ResponseType, APIError> where ResponseType: Decodable
     static func getResource<RequestType: Encodable, ResponseType>(from: APIResource, with requestBody: RequestType, get responseBody: ResponseType.Type) -> Future<ResponseType, APIError> where ResponseType: Decodable
 }
 
@@ -91,7 +90,6 @@ public extension Requestable {
     
     static func buildURLRequest<T: Encodable>(endpoint: APIResource, body: T) throws -> URLRequest {
         let resourceUrl = try endpoint.buildURL()
-        print(resourceUrl)
         var resourceRequest = URLRequest(url: resourceUrl)
         resourceRequest.httpMethod = endpoint.method.rawValue
         if endpoint.method == .GET {
@@ -120,7 +118,6 @@ public extension Requestable {
                     var body: Data?
                     if let data = data {
                         body = data
-                        print(try? JSONSerialization.jsonObject(with: data, options: []))
                     } else {
                         body = Data()
                     }
