@@ -119,6 +119,7 @@ public extension Requestable {
                     var body: Data?
                     if let data = data {
                         body = data
+                        print(try? JSONSerialization.jsonObject(with: data, options: []))
                     } else {
                         body = Data()
                     }
